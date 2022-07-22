@@ -26,8 +26,14 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     for line in reader.lines() {
         let line = line?.trim().to_string();
-        println!("{}", line);
+        let common_password= line.trim();
+        if hash_to_crack == &hex::encode(sha1::Sha1::digest(common_password.as_bytes())) {
+            println!("Password found: {}", &common_password);
+            return Ok(());
+        }
     }
+
+    println!("Password not found");
 
     Ok(())
 }
